@@ -18,7 +18,7 @@ public class CityRoad extends Road {
 
 	@Override
 	void updateSpeedLimit() {
-		// No cambia la velocid limite siempre es la misma
+		// No cambia la velocidad limite siempre es la misma
 	}
 
 	@Override

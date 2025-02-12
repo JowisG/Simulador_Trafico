@@ -15,6 +15,7 @@ public class Vehicle extends SimulatedObject {
 	
 	// private
 	private List<Junction> itinerary;
+	private int cont_iter;
 	private Road road;
 	private int location;
 	private int total_distance;
@@ -34,11 +35,11 @@ public class Vehicle extends SimulatedObject {
 		super(id);
 		
 		// Las que pueden lanzar excepciones
-		if (maxSpeed < 0)
+		if (maxSpeed <= 0)
 			throw new IllegalArgumentException("maxSpeed can´t be lower than 0");
 		else 
 			this.max_speed = maxSpeed;
-		if (contClass < 0 || contClass > 10)
+		if (contClass <= 0 || contClass > 10)
 			throw new IllegalArgumentException("Contamination Pollution must be between 0 and 10 (both included)");
 		else 
 			this.grade_pollution = contClass;
@@ -48,6 +49,7 @@ public class Vehicle extends SimulatedObject {
 			this.itinerary = Collections.unmodifiableList(new ArrayList<>(itinerary));
 		
 		// Las inicializadas a 0
+		this.cont_iter = 0;
 		this.location = 0;
 		this.act_speed = 0;
 		this.total_distance = 0;
@@ -60,7 +62,8 @@ public class Vehicle extends SimulatedObject {
 		if (s < 0)
 			throw new IllegalArgumentException("the speed to be set needs to be positive");
 		else
-			act_speed = (s > max_speed)? max_speed : s;
+			if (state == VehicleStatus.TRAVELING)
+				act_speed = (s > max_speed)? max_speed : s;
 	}
 	
 	void setContClass(int c) throws IllegalArgumentException {
@@ -118,7 +121,8 @@ public class Vehicle extends SimulatedObject {
 			
 			// Si se acaba la carretera se une al siguiente cruce
 			if (location >= road.getLength()) {
-				// TODO se une al Juncition correspondiente
+				road.getDest().enter(this);
+				state = VehicleStatus.WAITING;
 			}
 		}
 	}
@@ -129,16 +133,33 @@ public class Vehicle extends SimulatedObject {
 		if (state == VehicleStatus.PENDING) {
 			road = itinerary.get(0).roadTo(itinerary.get(1)); // Buscar la siguiente carretera
 			road.enter(this); // Entramos en la carretera
-			location = 0;
-			state = VehicleStatus.TRAVELING;
+			cont_iter = 2;
+		}else if(state == VehicleStatus.WAITING) {
+			// TODO se necesita un contador para evitar busquedas innecesarias
+			road = road.getDest().roadTo(itinerary.get(cont_iter));
+			road.enter(this);
+			cont_iter++;
 		}
+		act_speed = 0;
+		location = 0;
+		state = VehicleStatus.TRAVELING;
 	}
 
 	// Metodos JSON
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject json = new JSONObject();
+		json.put("id", getId());
+		json.put("speed", act_speed);
+		json.put("distance", total_distance);
+		json.put("co2", total_pollution);
+		json.put("class", grade_pollution);
+		json.put("status", state.toString());
+		if (state == VehicleStatus.TRAVELING || state == VehicleStatus.WAITING) {
+			json.put("road", road.getId());
+			json.put("location", location);
+		}
+		return json;
 	}
 
 

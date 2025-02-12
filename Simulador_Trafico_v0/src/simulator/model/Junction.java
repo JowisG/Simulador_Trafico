@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Junction extends SimulatedObject {
@@ -46,7 +47,7 @@ public class Junction extends SimulatedObject {
 		  else
 			  throw new IllegalArgumentException("DequeuingStrategy is null");
 		  
-		  if (xCoor >= 0 || yCoor >= 0) {
+		  if (xCoor >= 0 && yCoor >= 0) {
 			  x = xCoor;
 			  y = yCoor;
 		  }else
@@ -54,7 +55,6 @@ public class Junction extends SimulatedObject {
 		  
 		  curr_green = -1; // Revisar si esto es asi
 		  last_green = 0;
-		  // TODO revisar
 		  roads = new ArrayList<>();
 		  dest_road = new HashMap<>();
 		  queues = new ArrayList<>();
@@ -107,18 +107,17 @@ public class Junction extends SimulatedObject {
 			if (entry.getKey().getId() == j.getId())
 				return entry.getValue();
 		}
-		throw new IllegalArgumentException("Junction does not exist in map");
+		return null;
 	}
 	
 	@Override
 	void advance(int time) {
 		List<Vehicle> v = new ArrayList<>();
-		for(int i = 0; i < curr_green; i++) { // TODO supongo que curr_green indica cuantos indices estan abiertos
-			v = queue_strategy.dequeue(queues.get(i));
-			for (int j = 0; j < v.size(); j++) {
-				v.get(j).moveToNextRoad();
-				queues.get(i).remove(j);
-			}
+		// Movemos los coches de la cola curr_green
+		v = queue_strategy.dequeue(queues.get(curr_green));
+		for (int i = 0; i < v.size(); i++) {
+			v.get(i).moveToNextRoad();
+			queues.get(curr_green).remove(i);
 		}
 		// Cambiamos los semaforos
 		int change = light_strategy.chooseNextGreen(roads, queues, curr_green, last_green, time);
@@ -130,8 +129,23 @@ public class Junction extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject json = new JSONObject();
+		json.put("id", getId());
+		json.put("green", (curr_green == -1)? "none" : roads.get(curr_green).getId() );
+		JSONArray json_queues = new JSONArray();
+		for(int i = 0; i < queues.size(); i++) {
+			JSONObject json_roads = new JSONObject();
+			json_roads.put("road", roads.get(i).getId());
+			List<String> vehicle_ids = new ArrayList<>();
+			for(int j = 0; j < queues.get(i).size(); j++) {
+				vehicle_ids.add(queues.get(i).get(j).getId());
+			}
+			json_roads.put("vehicles", vehicle_ids);
+			
+			json_queues.put(json_roads);
+		}
+		json.put("queues", json_queues);
+		return json;
 	}
 
 }

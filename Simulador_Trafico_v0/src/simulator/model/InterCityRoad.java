@@ -24,19 +24,17 @@ public class InterCityRoad extends Road {
 	@Override
 	void updateSpeedLimit() {
 		if (getTotalCO2() > getContLimit())
-			setSpeedLimit(getMaxSpeed()/2);
+			setSpeedLimit(getSpeedLimit()/2);
 		else
-			setSpeedLimit(getMaxSpeed());
+			setSpeedLimit(getSpeedLimit());
 	}
 
 	@Override
-	int calculateVehicleSpeed(Vehicle v) { // Se aplican ambos métodos si weather y la contaminación cumplen las condiciones
-		int reduceTo = getMaxSpeed();
-		if (getTotalCO2() > getContLimit())
-			reduceTo /= 2;
+	int calculateVehicleSpeed(Vehicle v) {
+		int reduceTo = getSpeedLimit();
 		if (getWeather() == Weather.STORM)
 			reduceTo = (reduceTo*8)/10; // Si no quieres que se apliquen ambas => reduceTo = (getMaxSpeed()*8)/10
-		return 0;
+		return reduceTo;
 	}
 
 }

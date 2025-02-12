@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RoadMap /*extends SimulatedObject*/{
+public class RoadMap{
 	/**
 	 * 
 	 * Atributos
@@ -61,6 +62,18 @@ public class RoadMap /*extends SimulatedObject*/{
 		for (int i = 0; i < v.getItinerary().size(); i++) {
 			if(!junction_ids.containsKey(v.getItinerary().get(i).getId()))
 				throw new IllegalArgumentException("Itinerary not valid because not found junction: " + v.getItinerary().get(i).getId());
+			else if (i < v.getItinerary().size()-1){
+				boolean roadExists = false;
+				for(Road r: roads) {
+					if (r.getSrc() == v.getItinerary().get(i) && r.getDest() == v.getItinerary().get(i+1)) {
+						roadExists = true;
+						break;
+					}
+				}
+				if (!roadExists)
+					throw new IllegalArgumentException("There is a road that does not exist to connect: "
+								+ v.getItinerary().get(i) + ", " + v.getItinerary().get(i+1));
+			}
 		}
 		vehicles.add(v);
 		vehicle_ids.put(v.getId(), v);
@@ -103,14 +116,27 @@ public class RoadMap /*extends SimulatedObject*/{
 		vehicle_ids.clear();
 	}
 	
-	/*@Override
-	void advance(int time) {
-		// TODO por heredar de Simulated Object pero alomejor no hereda de ahi pero necesita el JSONObject report()?
-	}
-	
-	@Override*/
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject json=new JSONObject();
+		
+		JSONArray json_junctions=new JSONArray();
+		for(Junction j: junctions) {
+			json_junctions.put(j.report());
+		}
+		json.put("junctions", json_junctions);
+		
+		JSONArray json_roads=new JSONArray();
+		for(Road r: roads) {
+			json_roads.put(r.report());
+		}
+		json.put("roads", json_roads);
+		
+		JSONArray json_vehicles=new JSONArray();
+		for(Vehicle v: vehicles) {
+			json_vehicles.put(v.report());
+		}
+		
+		json.put("vehicles", json_vehicles);
+		return json;
 	}
 }

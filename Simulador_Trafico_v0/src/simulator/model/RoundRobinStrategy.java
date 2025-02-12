@@ -23,7 +23,7 @@ public class RoundRobinStrategy implements LightSwitchingStrategy {
 		if(currTime-lastSwitchingTime < timeSlot) return currGreen;
 		
 		// Abrimos un semaforo más por cada vez que llegue a esta condición hasta que llegue a roads.size()-1
-		return (currGreen+1 < roads.size())? currGreen+1: roads.size()-1;
+		return (currGreen+1 < roads.size())? currGreen+1: 0;
 	}
 
 }
