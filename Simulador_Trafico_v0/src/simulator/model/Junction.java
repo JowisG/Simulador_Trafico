@@ -77,11 +77,6 @@ public class Junction extends SimulatedObject {
 		if (r.getSrc().getId() == this.getId()) { // Revisamos que la carretera tenga como origen este cruce
 			if(dest_road.containsKey(r.getDest()))
 				throw new IllegalArgumentException("OutGoingRoad ends in the same Junction as another road in this Junction: " + r.getDest());
-			/*for (Map.Entry<Junction, Road> entry : dest_road.entrySet()) {
-				if (entry.getKey() == r.getDest())
-					throw new IllegalArgumentException("OutGoingRoad ends in the same Junction as another road in this Junction: " + r.getDest());
-			}*/
-			
 			// Si no salta la excepcion
 			dest_road.put(r.getDest(), r);
 		}
@@ -112,12 +107,14 @@ public class Junction extends SimulatedObject {
 	
 	@Override
 	void advance(int time) {
-		List<Vehicle> v = new ArrayList<>();
-		// Movemos los coches de la cola curr_green
-		v = queue_strategy.dequeue(queues.get(curr_green));
-		for (int i = 0; i < v.size(); i++) {
-			v.get(i).moveToNextRoad();
-			queues.get(curr_green).remove(i);
+		if (curr_green > -1) {
+			List<Vehicle> v = new ArrayList<>();
+			// Movemos los coches de la cola curr_green
+			v = queue_strategy.dequeue(queues.get(curr_green));
+			for (int i = 0; i < v.size(); i++) {
+				v.get(i).moveToNextRoad();
+				queues.get(curr_green).remove(i);
+			}
 		}
 		// Cambiamos los semaforos
 		int change = light_strategy.chooseNextGreen(roads, queues, curr_green, last_green, time);

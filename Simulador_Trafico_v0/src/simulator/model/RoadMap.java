@@ -81,15 +81,15 @@ public class RoadMap{
 	
 	// Metodos get
 	public Junction getJunction(String id) {
-		return (junction_ids.containsKey(id))? junction_ids.get(id) : null;
+		return junction_ids.get(id);
 	}
 	
 	public Road getRoad(String id) {
-		return (road_ids.containsKey(id))? road_ids.get(id) : null;
+		return road_ids.get(id);
 	}
 	
 	public Vehicle getVehicle(String id) {
-		return (vehicle_ids.containsKey(id))? vehicle_ids.get(id) : null;
+		return vehicle_ids.get(id);
 	}
 	
 	public List<Junction> getJunctions(){
