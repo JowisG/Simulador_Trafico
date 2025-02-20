@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,11 +45,17 @@ public class Controller {
 	}
 	
 	public void run(int n, OutputStream out) {
-		JSONArray json = new JSONArray();
+		PrintStream p = new PrintStream(out);
+		p.println("{");
+		p.println("  \"states\": [");
 		for(int i = 0; i < n; i++) {
 			simulator.advance();
-			json.put(simulator.report());
+			p.print(simulator.report());
+			if (i < n-1)
+				p.print(",\n");
 		}
+		p.println("]");
+		p.println("}");
 	}
 	
 	public void reset() {

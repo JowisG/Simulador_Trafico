@@ -78,7 +78,7 @@ public abstract class Road extends SimulatedObject{
 	}
 	
 	void exit(Vehicle v) {
-		for (int i = vehicles.size()-1; i > 0; i--) { // Se puede cambiar a un while
+		for (int i = vehicles.size()-1; i >= 0; i--) { // Se puede cambiar a un while
 			if (v.getId() == vehicles.get(i).getId()) {
 				vehicles.remove(i);
 				break;
@@ -171,7 +171,7 @@ public abstract class Road extends SimulatedObject{
 	public JSONObject report() { // TODO revisar
 		JSONObject json = new JSONObject();
 		json.put("id", this.getId());
-		json.put("speedlimit", speed_limit);
+		json.put("speedlimit", act_speed_limit);
 		json.put("weather", weather.toString());
 		json.put("co2", total_pollution);
 		List<String> vehicle_ids = new ArrayList<>();

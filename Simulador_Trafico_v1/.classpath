@@ -8,7 +8,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/jorge/OneDrive/Documentos/Universidad/2º Curso/2º Cuatri/TP2/Practica/Simulador_Trafico_v1/lib/commons-cli-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/jorge/OneDrive/Documentos/Universidad/2º Curso/2º Cuatri/TP2/Practica/Simulador_Trafico_v1/lib/json.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

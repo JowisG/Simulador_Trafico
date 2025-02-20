@@ -93,6 +93,7 @@ public class Junction extends SimulatedObject {
 				queues.get(i).add(v);
 				esta = true;
 			}
+			i++;
 		}
 		if (!esta) throw new IllegalArgumentException("Vehicle does not have this junction as its destination");
 	}
@@ -119,7 +120,7 @@ public class Junction extends SimulatedObject {
 		// Cambiamos los semaforos
 		int change = light_strategy.chooseNextGreen(roads, queues, curr_green, last_green, time);
 		if (change != curr_green) {
-			last_green = curr_green;
+			last_green = time;
 			curr_green = change;
 		}
 	}

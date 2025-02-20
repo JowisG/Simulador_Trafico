@@ -39,7 +39,7 @@ public class Vehicle extends SimulatedObject {
 			throw new IllegalArgumentException("maxSpeed can´t be lower than 0");
 		else 
 			this.max_speed = maxSpeed;
-		if (contClass <= 0 || contClass > 10)
+		if (contClass < 0 || contClass > 10)
 			throw new IllegalArgumentException("Contamination Pollution must be between 0 and 10 (both included)");
 		else 
 			this.grade_pollution = contClass;
@@ -122,27 +122,30 @@ public class Vehicle extends SimulatedObject {
 			// Si se acaba la carretera se une al siguiente cruce
 			if (location >= road.getLength()) {
 				road.getDest().enter(this);
+				act_speed = 0;
 				state = VehicleStatus.WAITING;
 			}
 		}
 	}
 	
 	void moveToNextRoad() {
-		if (road != null)
-			road.exit(this); // Salimos de la carretera
-		if (state == VehicleStatus.PENDING) {
-			road = itinerary.get(0).roadTo(itinerary.get(1)); // Buscar la siguiente carretera
-			road.enter(this); // Entramos en la carretera
-			cont_iter = 2;
-		}else if(state == VehicleStatus.WAITING) {
-			// TODO se necesita un contador para evitar busquedas innecesarias
-			road = road.getDest().roadTo(itinerary.get(cont_iter));
-			road.enter(this);
-			cont_iter++;
-		}
-		act_speed = 0;
-		location = 0;
-		state = VehicleStatus.TRAVELING;
+		if(cont_iter < itinerary.size()) {
+			if (road != null)
+				road.exit(this); // Salimos de la carretera
+			if (state == VehicleStatus.PENDING) {
+				road = itinerary.get(0).roadTo(itinerary.get(1)); // Buscar la siguiente carretera
+				road.enter(this); // Entramos en la carretera
+				cont_iter = 2;
+			}else if(state == VehicleStatus.WAITING) {
+				// se necesita un contador para evitar busquedas innecesarias
+				road = road.getDest().roadTo(itinerary.get(cont_iter));
+				location = 0;
+				road.enter(this);
+				cont_iter++;
+			}
+			state = VehicleStatus.TRAVELING;
+		}else
+			state = VehicleStatus.ARRIVED;
 	}
 
 	// Metodos JSON

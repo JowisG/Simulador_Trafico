@@ -24,7 +24,7 @@ public class InterCityRoad extends Road {
 	@Override
 	void updateSpeedLimit() {
 		if (getTotalCO2() > getContLimit())
-			setSpeedLimit(getSpeedLimit()/2);
+			setSpeedLimit(getMaxSpeed()/2);
 		else
 			setSpeedLimit(getSpeedLimit());
 	}
