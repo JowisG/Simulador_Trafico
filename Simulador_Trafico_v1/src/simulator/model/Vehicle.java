@@ -144,8 +144,10 @@ public class Vehicle extends SimulatedObject {
 				cont_iter++;
 			}
 			state = VehicleStatus.TRAVELING;
-		}else
+		}else {
 			state = VehicleStatus.ARRIVED;
+			road.exit(this);
+		}
 	}
 
 	// Metodos JSON
