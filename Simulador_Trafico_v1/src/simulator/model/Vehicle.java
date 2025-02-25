@@ -142,7 +142,9 @@ public class Vehicle extends SimulatedObject {
 				location = 0;
 				road.enter(this);
 				cont_iter++;
-			}
+			}else{
+                throw new IllegalArgumentException("Vehicle state is neither PENDING nor WAITING");
+            }
 			state = VehicleStatus.TRAVELING;
 		}else {
 			state = VehicleStatus.ARRIVED;
