@@ -59,20 +59,11 @@ public class RoadMap{
 	void addVehicle(Vehicle v) throws IllegalArgumentException{
 		if (vehicle_ids.containsKey(v.getId()))
 			throw new IllegalArgumentException("Vehicle already in the list: " + v.getId());
-		for (int i = 0; i < v.getItinerary().size(); i++) {
-			if(!junction_ids.containsKey(v.getItinerary().get(i).getId()))
-				throw new IllegalArgumentException("Itinerary not valid because not found junction: " + v.getItinerary().get(i).getId());
-			else if (i < v.getItinerary().size()-1){
-				boolean roadExists = false;
-				for(Road r: roads) {
-					if (r.getSrc() == v.getItinerary().get(i) && r.getDest() == v.getItinerary().get(i+1)) {
-						roadExists = true;
-						break;
-					}
-				}
-				if (!roadExists)
-					throw new IllegalArgumentException("There is a road that does not exist to connect: "
-								+ v.getItinerary().get(i) + ", " + v.getItinerary().get(i+1));
+		for (int i = 0; i < v.getItinerary().size()-1; i++) {
+			Junction current = v.getItinerary().get(i);
+			Junction next = v.getItinerary().get(i+1);
+			if(current.roadTo(next) == null) {
+				throw new IllegalArgumentException("Itinerary not valid because not found road between: " + current + " and " + next + " for vehicle " + v.getId());
 			}
 		}
 		vehicles.add(v);

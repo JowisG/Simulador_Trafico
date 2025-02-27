@@ -40,7 +40,7 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static Factory<Event> _eventsFactory = null;
-	private static int _ticks = 0;
+	private static int _ticks = 10;
 
 	private static void parseArgs(String[] args) {
 

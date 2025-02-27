@@ -17,8 +17,7 @@ public class InterCityRoad extends Road {
 		else if (getWeather() == Weather.STORM) x = 20;
 		else throw new IllegalArgumentException("Weather does not exist (reduceCO2)");
 		
-		setTotalCO2(((100-x)*getTotalCO2())/100); // TODO Puede cambiar
-		//total_pollution = ((100-x)*getTotalCO2())/100;
+		setTotalCO2(((100-x)*getTotalCO2())/100);
 	}
 
 	@Override

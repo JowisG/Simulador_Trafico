@@ -94,14 +94,14 @@ public abstract class Road extends SimulatedObject{
 			weather = w;
 	}
 	
-	void setSpeedLimit(int v) throws IllegalArgumentException { // TODO Puede que sea innecesario
+	void setSpeedLimit(int v) throws IllegalArgumentException {
 		if (v < 0)
 			throw new IllegalArgumentException("the speed must be positive (set Road)");
 		else
 			act_speed_limit = v;
 	}
 	
-	void setTotalCO2(int c) throws IllegalArgumentException { // TODO Puede que sea innecesario
+	void setTotalCO2(int c) throws IllegalArgumentException {
 		if (c < 0)
 			throw new IllegalArgumentException("the contamination must be positive (set Road)");
 		else
@@ -168,7 +168,7 @@ public abstract class Road extends SimulatedObject{
 
 	// Metodos de JSON
 	@Override
-	public JSONObject report() { // TODO revisar
+	public JSONObject report() {
 		JSONObject json = new JSONObject();
 		json.put("id", this.getId());
 		json.put("speedlimit", act_speed_limit);

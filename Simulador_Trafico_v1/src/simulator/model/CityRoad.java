@@ -13,7 +13,7 @@ public class CityRoad extends Road {
 		else if (getWeather() == Weather.STORM || getWeather() == Weather.WINDY) x = 10;
 		else throw new IllegalArgumentException("Weather does not exist (reduceCO2)");
 		
-		setTotalCO2((getTotalCO2() - x <= 0)? 0: getTotalCO2() - x); // TODO Puede cambiar
+		setTotalCO2((getTotalCO2() - x <= 0)? 0: getTotalCO2() - x);
 	}
 
 	@Override

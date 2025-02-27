@@ -103,7 +103,6 @@ public class Vehicle extends SimulatedObject {
 	@Override
 	void advance(int time) {
 		if (state == VehicleStatus.TRAVELING) {
-			// TODO cambiar a futuro
 			int traveled = act_speed;
 			if (location + act_speed <= road.getLength()) { // comprobar que no se salga de la longitud de la carretera
 				location += act_speed;
