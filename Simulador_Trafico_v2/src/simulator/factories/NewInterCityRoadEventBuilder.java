@@ -1,0 +1,34 @@
+package simulator.factories;
+
+import org.json.JSONObject;
+
+import simulator.model.Event;
+import simulator.model.NewInterCityRoadEvent;
+import simulator.model.Weather;
+
+public class NewInterCityRoadEventBuilder extends Builder<Event> {
+	
+	private String _id;
+	
+	public NewInterCityRoadEventBuilder() {
+		super("new_inter_city_road", "New InterCityRoad Event");
+	}
+
+	@Override
+	protected Event create_instance(JSONObject data) {
+		int time = data.getInt("time");
+		_id = data.getString("id");
+		String src = data.getString("src");
+		String dest = data.getString("dest");
+		int length = data.getInt("length");
+		int co2limit = data.getInt("co2limit");
+		int maxSpeed = data.getInt("maxspeed");
+		Weather weather = Weather.valueOf(data.getString("weather"));
+		return new NewInterCityRoadEvent(time, _id, src, dest, length, co2limit, maxSpeed, weather);
+	}
+	
+	@Override
+	public String toString() {
+		return "New Inter City Road '"+_id+"'";
+	}
+}
