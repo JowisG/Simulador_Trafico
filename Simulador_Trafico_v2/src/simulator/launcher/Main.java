@@ -105,9 +105,9 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
-			throw new ParseException("An events file is missing");
-		}
+		//if (_inFile == null) {
+		//	throw new ParseException("An events file is missing");
+		//}
 	}
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
@@ -158,7 +158,7 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws IOException {
-		InputStream input = new FileInputStream(_inFile);
+		//InputStream input = new FileInputStream(_inFile);
 		OutputStream out;
 		if(_outFile == null)
 			out = System.out;
@@ -174,21 +174,6 @@ public class Main {
 				new TestWindow(controller);				
 			}
 		});
-		
-		controller.loadEvents(input);
-		input.close();
-		controller.run(_ticks, out);
-		
-		
-		// TODO quitar esto en el futuro
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		controller.run(100, out);
 		
 	}
 

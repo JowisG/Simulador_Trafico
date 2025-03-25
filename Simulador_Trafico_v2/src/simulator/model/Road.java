@@ -125,7 +125,7 @@ public abstract class Road extends SimulatedObject{
 	public Junction getDest() {
 		return junc_dest;
 	}
-	Weather getWeather() {
+	public Weather getWeather() {
 		return weather;
 	}
 	public int getContLimit() {
@@ -134,13 +134,13 @@ public abstract class Road extends SimulatedObject{
 	public int getTotalCO2() {
 		return total_pollution;
 	}
-	int getMaxSpeed() {
+	public int getMaxSpeed() {
 		return speed_limit;
 	}
-	int getSpeedLimit() {
+	public int getSpeedLimit() {
 		return act_speed_limit;
 	}
-	List<Vehicle> getVehicles(){
+	public List<Vehicle> getVehicles(){
 		return Collections.unmodifiableList(vehicles);
 	}
 	

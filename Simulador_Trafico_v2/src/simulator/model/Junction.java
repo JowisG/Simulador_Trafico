@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -123,6 +124,22 @@ public class Junction extends SimulatedObject {
 	
 	public List<Road> getInRoads(){
 		return Collections.unmodifiableList(roads);
+	}
+	
+	public String queuesToString() {
+		String ret = "";
+		
+		for(int i = 0; i < roads.size(); i++) {
+			ret += roads.get(i).getId() + ":[";
+			for(int j = 0; j < queues.get(i).size(); j++) {
+				ret += queues.get(i).get(j).getId();
+				if (j < queues.get(i).size()-1)
+					ret += ", ";
+			}
+			ret += "]";
+		}
+		
+		return ret;
 	}
 	
 	@Override

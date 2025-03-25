@@ -20,12 +20,13 @@ public abstract class Event implements Comparable<Event> {
 	}
 	
 	//Getter
-	int getTime() {
+	public int getTime() {
 		return time;
 	}
 	
 	// Abstractas
 	abstract void execute(RoadMap map);
+	public abstract String toString();
 	
 	@Override
 	public int compareTo(Event o) {

@@ -77,7 +77,7 @@ public class Vehicle extends SimulatedObject {
 	public int getLocation() {
 		return location;
 	}
-	int getSpeed() {
+	public int getSpeed() {
 		return act_speed;
 	}
 	public int getMaxSpeed() {
@@ -89,14 +89,17 @@ public class Vehicle extends SimulatedObject {
 	public VehicleStatus getStatus() {
 		return state;
 	}
-	int getTotalCO2() {
+	public int getTotalCO2() {
 		return total_pollution;
 	}
-	List<Junction> getItinerary(){
+	public List<Junction> getItinerary(){
 		return itinerary;
 	}
 	public Road getRoad() {
 		return road;
+	}
+	public int getDistance() {
+		return total_distance;
 	}
 	
 	// Movimiento y comportamiento de Vehicle	

@@ -32,8 +32,4 @@ public class NewJunctionEventBuilder extends Builder<Event> {
 		return new NewJunctionEvent(time, _id, ls_strategy, dq_strategy,x, y);
 	}
 	
-	@Override
-	public String toString() {
-		return "New Junction '"+_id+"'";
-	}
 }

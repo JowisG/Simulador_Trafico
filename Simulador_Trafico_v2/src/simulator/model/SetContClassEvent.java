@@ -28,4 +28,14 @@ public class SetContClassEvent extends Event {
 		}
 	}
 
+	@Override
+	public String toString() {
+		String ret = "Set ContClass: (";
+		for(int i = 0; i < cont.size(); i++) {
+			ret += "[" + cont.get(i).getFirst() + ", " + cont.get(i).getSecond() + "]";
+			if(i < cont.size()-1)  ret += ", ";
+		}
+		return ret + ")";
+	}
+
 }

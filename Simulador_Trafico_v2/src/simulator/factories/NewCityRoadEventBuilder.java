@@ -27,8 +27,4 @@ public class NewCityRoadEventBuilder extends Builder<Event> {
 		return new NewCityRoadEvent(time, _id, src, dest, length, co2limit, maxSpeed, weather);
 	}
 	
-	@Override
-	public String toString() {
-		return "New City Road '"+_id+"'";
-	}
 }

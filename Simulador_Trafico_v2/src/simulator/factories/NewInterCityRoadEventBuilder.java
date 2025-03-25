@@ -26,9 +26,4 @@ public class NewInterCityRoadEventBuilder extends Builder<Event> {
 		Weather weather = Weather.valueOf(data.getString("weather"));
 		return new NewInterCityRoadEvent(time, _id, src, dest, length, co2limit, maxSpeed, weather);
 	}
-	
-	@Override
-	public String toString() {
-		return "New Inter City Road '"+_id+"'";
-	}
 }

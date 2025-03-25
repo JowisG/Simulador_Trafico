@@ -28,4 +28,14 @@ public class SetWeatherEvent extends Event {
 		}		
 	}
 
+	@Override
+	public String toString() {
+		String ret = "Set Weather: (";
+		for(int i = 0; i < weather.size(); i++) {
+			ret += "[" + weather.get(i).getFirst() + ", " + weather.get(i).getSecond().toString() + "]";
+			if(i < weather.size()-1)  ret += ", ";
+		}
+		return ret + ")";
+	}
+
 }
