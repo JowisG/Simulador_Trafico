@@ -18,7 +18,12 @@ import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver {
 	
+	// Atributos
 	Controller _ctrl;
+	
+	// elementos
+	private JLabel time;
+	private JLabel events_desc;
 	
 	public StatusBar(Controller _ctrl) {
 		this._ctrl = _ctrl;
@@ -29,14 +34,15 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	private void initGUI() {
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.add(Box.createRigidArea(new Dimension(15, 0)));
-		JLabel time = new JLabel("Time: 0");
+		time = new JLabel("Time: 0");
 		time.setFont(new Font(getName(), Font.BOLD, 18));
 		this.add(time);
-		this.add(Box.createRigidArea(new Dimension(40, 0)));
+		this.add(Box.createRigidArea(new Dimension(20, 0)));
 		JSeparator sep = new JSeparator(JSeparator.VERTICAL);
+		sep.setMaximumSize(new Dimension(1, 50));
 		this.add(sep);
 		this.add(Box.createRigidArea(new Dimension(10, 0)));
-		JLabel events_desc = new JLabel("Event added (None)");
+		events_desc = new JLabel("Event added (None)");
 		events_desc.setFont(new Font(getName(), Font.BOLD, 18));
 		this.add(events_desc);
 		this.setVisible(true);
@@ -44,22 +50,18 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		JLabel text = (JLabel) this.getComponent(1);
-		text.setText("Time: " + time);
+		this.time.setText("Time: " + time);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, Collection<Event> events, Event e, int time) {
-		JLabel text = (JLabel) this.getComponent(5);
-		text.setText("Event added ("+ e.toString()+")");
+		events_desc.setText("Event added ("+ e.toString()+")");
 	}
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		JLabel text = (JLabel) this.getComponent(1);
-		text.setText("Time: 0");
-		text = (JLabel) this.getComponent(5);
-		text.setText("Event added (None)");
+		this.time.setText("Time: 0");
+		events_desc.setText("Event added (None)");
 	}
 
 	@Override

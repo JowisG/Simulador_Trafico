@@ -1,27 +1,14 @@
 package simulator.view;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.lang.ref.Reference;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JToolBar;
-import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -55,13 +41,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private JButton quit_btn;
 	
 	private JSpinner ticks;
-	
-	// Info map
-	List<String> vehicle_spin_list;
 
 	public ControlPanel (Controller ctrl){
 		this._ctrl = ctrl;
-		vehicle_spin_list = new ArrayList<>();
 		initGUI();
 		_ctrl.addObserver(this);
 	}
@@ -79,33 +61,38 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		file_btn.addActionListener(e -> {
 			load_file();
 		});
+		file_btn.setToolTipText("Open a file");
 		bar.add(file_btn);
 		
 		separator(bar);
 		
 		co2_btn = new JButton();		co2_btn.setIcon(new ImageIcon("resources/icons/co2class.png"));
 		co2_btn.addActionListener(e -> {
-			co2_btn();
+			new ChangeCO2ClassDialog(_ctrl);
 		});
+		co2_btn.setToolTipText("Change the contamination class of a vehicle");
 		bar.add(co2_btn);
 		
 		weather_btn = new JButton();		weather_btn.setIcon(new ImageIcon("resources/icons/weather.png"));
 		weather_btn.addActionListener(e -> {
-			weather_change();
+			new ChangeWeatherDailog(_ctrl);
 		});
+		weather_btn.setToolTipText("Change the weather of a road");
 		bar.add(weather_btn);
 		
 		separator(bar);
 		
 		run_btn = new JButton();		run_btn.setIcon(new ImageIcon("resources/icons/run.png"));
+		run_btn.setToolTipText("Run simulation x ticks");
 		bar.add(run_btn);
 		
 		stop_btn = new JButton();
 		stop_btn.setIcon(new ImageIcon("resources/icons/stop.png"));
-		stop_btn.addActionListener(e ->{stopped = true;});		bar.add(stop_btn);
-		
+		stop_btn.addActionListener(e ->{stopped = true;});
+		stop_btn.setToolTipText("Stop simlation");
+		bar.add(stop_btn);		
 		JLabel ticks_label = new JLabel("Ticks: ");
-		SpinnerNumberModel numSpin = new SpinnerNumberModel();
+		SpinnerNumberModel numSpin = new SpinnerNumberModel(_ticks, 1, Integer.MAX_VALUE, 1);
 		ticks = new JSpinner(numSpin);
 		ticks.setMaximumSize(new Dimension(2000, 50));
 		ticks.setValue(10);
@@ -122,6 +109,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		quit_btn.addActionListener(e -> {
 			close_Dialog();
 		});
+		quit_btn.setToolTipText("Quit simulator");
 		bar.add(quit_btn);
 
 		
@@ -141,48 +129,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		// Añadimos el JToolBar al ControlPanel
 		this.add(bar);
 		this.setVisible(true);
-	}
-
-	private void weather_change() {
-		JDialog dweather = new JDialog(null, "Change CO2 Class", Dialog.ModalityType.APPLICATION_MODAL);
-		dweather.setSize(new Dimension(500, 200));
-		dweather.setVisible(true);
-	}
-
-	private void co2_btn() {
-		JDialog dco2 = new JDialog(null, "Change CO2 Class", Dialog.ModalityType.APPLICATION_MODAL);
-		dco2.setSize(new Dimension(500, 200));
-		dco2.setLayout(new GridLayout(3, 1));
-		
-		JLabel text = new JLabel("Schedule an event to change the CO2 class of a vehicle after a given number of ticks from now.");
-		dco2.add(text);
-		
-		// Para los spinners
-		JPanel spinners_panel = new JPanel();
-		spinners_panel.setLayout(new BoxLayout(spinners_panel, BoxLayout.X_AXIS));
-		JLabel vehicle_label = new JLabel("Vehicle: ");
-		spinners_panel.add(vehicle_label);
-		if (vehicle_spin_list.isEmpty())
-			vehicle_spin_list.add("none");
-		SpinnerListModel vehicle_spin_model = new SpinnerListModel(vehicle_spin_list);
-		JSpinner vehicle_spin = new JSpinner(vehicle_spin_model);
-		spinners_panel.add(vehicle_spin);
-		dco2.add(spinners_panel);
-		
-		// Para los botones
-		JPanel btn_panel = new JPanel();
-		JButton ok_btn = new JButton();
-		ok_btn.setText("Comfirm");
-		btn_panel.add(ok_btn);
-		JButton cancel_btn = new JButton();
-		cancel_btn.setText("Cancel");
-		cancel_btn.addActionListener(e -> {
-			dco2.dispose();
-		});
-		btn_panel.add(cancel_btn);
-		dco2.add(btn_panel);
-		
-		dco2.setVisible(true);
 	}
 
 	private void runTicks(int n) {
@@ -247,10 +193,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
-		vehicle_spin_list.clear();
-		for(int i = 0; i < map.getVehicles().size(); i++) {
-			vehicle_spin_list.add(map.getVehicles().get(i).getId());
-		}	
+		
 	}
 
 	@Override
@@ -260,15 +203,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
-		vehicle_spin_list.clear();
+		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, Collection<Event> events, int time) {
-		vehicle_spin_list.clear();
-		for(int i = 0; i < map.getVehicles().size(); i++) {
-			vehicle_spin_list.add(map.getVehicles().get(i).getId());
-		}
+		
 	}
 
 }

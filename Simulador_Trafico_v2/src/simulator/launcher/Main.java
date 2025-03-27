@@ -59,10 +59,10 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
+			parseModeOption(line);
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseTicksOption(line);
-			parseModeOption(line);
 			
 
 			// if there are some remaining arguments, then something wrong is
@@ -105,9 +105,9 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		//if (_inFile == null) {
-		//	throw new ParseException("An events file is missing");
-		//}
+		if (_inFile == null && _gui_mode == false) {
+			throw new ParseException("An events file is missing");
+		}
 	}
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
@@ -125,7 +125,7 @@ public class Main {
 	private static void parseModeOption(CommandLine line) throws ParseException {
 		if(line.hasOption("m")) {
 			_gui_mode = true;
-			if(line.getOptionValue("m").toLowerCase() == "console")
+			if(line.getOptionValue("m").equalsIgnoreCase("console"))
 				_gui_mode = false;
 			else if(!line.getOptionValue("m").equalsIgnoreCase("gui")) {
 				throw new ParseException("No arguments given or not valid");
@@ -168,12 +168,16 @@ public class Main {
 		TrafficSimulator sim = new TrafficSimulator();
 		Controller controller = new Controller(sim, _eventsFactory);
 		
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new TestWindow(controller);				
-			}
-		});
+		if(_gui_mode) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					new TestWindow(controller);				
+				}
+			});			
+		}else {
+			controller.run(_ticks, out);
+		}
 		
 	}
 
