@@ -75,7 +75,7 @@ public class TestWindow extends JFrame {
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapPanel.add(mapView);
 		
-		JPanel mapRoadsView = createViewPanel(new MapComponent(_ctrl), "Map by Road");
+		JPanel mapRoadsView = createViewPanel(new MapByRoadComponent(_ctrl), "Map by Road");
 		mapRoadsView.setPreferredSize(new Dimension(500, 400));
 		mapPanel.add(mapRoadsView);
 		
