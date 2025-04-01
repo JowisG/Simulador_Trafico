@@ -25,4 +25,4 @@ Por último abajo del todo tenemos una barra de estado que muestra el tick en el
 # Uso del proyecto
 Se puede consulatar de forma libre, no hay copyright
 > [!CAUTION]
-> Por favor no copiar nada del reopsitorio, es un trabajo de la universidad sin ningún valor para personas fuera de esta. Para aquellos que sean universitarios tened encuanta que copiar de aquí no tiene ningún valor, es mejor intentar sacar soluciones propias a estos trabajos.
+> Por favor no copiar nada del reopsitorio, es un trabajo de la universidad sin ningún valor para personas fuera de esta. Para aquellos que sean universitarios tened en cuenta que copiar de aquí no tiene ningún valor, es mejor intentar sacar soluciones propias a estos trabajos.
