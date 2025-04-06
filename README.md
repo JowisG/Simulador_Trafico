@@ -1,10 +1,10 @@
 # Sobre la practica
-## Versión 1
+## Versión 1: Lógica de la práctica
 En la v1 <ins>**se hizo toda la lógica**</ins> que debe pasar unos test proporcionados por el profesor.
 La practica consiste en hacer un simulador donde unos coches con un itinerario de cruces van de carretera a carrtera de un cruce al ultimo de sus cruces en su itinerario. Además las carreteras tendrán un tiempo que pordrá afectar la velocidad máxima a la que los coches puedan ir. A esto se le incluye un contador de CO2 a las carreteras donde los coches emiten una cantidad de CO2 dependiendo de su clase de CO2, si la carretera supera la cantidad limite de CO2 que puede tener reducirá la velocidad de los coches.
 </br>
 <ins>**El simulador usará JSONs para manejar información**</ins>, es decir, para cargar los coches, carretera... cogerá un JSON con un formato, la aplicación transforma el JSON en los objetos correspondientes para hacer la simulación. Por último, <ins>**la simulación se hará mediante ticks**</ins>, cada tick es un ciclo update de todos los objetos de la simulación cargada.
-## Versión 2
+## Versión 2: GUI
 En la v2 <ins>**se hizo la GUI**</ins> de la aplicación con **Java Swing**.
 La GUI consiste de una ventana con una toolbar con botones:
 - Archivo: escoge un fichero JSON para cargar la simulación con los eventos correspondientes
@@ -20,8 +20,11 @@ En la ventana se ven otras ventanas, a la izquierda estan todas la tablas de de 
 Por último abajo del todo tenemos una barra de estado que muestra el tick en el cual la simulación actualmente está y el útmimo evento añadido. </br>
 ![mainwindow](https://github.com/user-attachments/assets/f1fdfee0-630d-4c56-8c4b-13061e027579)
 
-## Versión 3
-> Por definir
+## Versión 3: Threads
+> [!NOTE]
+> Esta práctica es opcional no entra en el examen ni se evaluará
+
+En la v3 <ins>**se harán los threads**</ins>, es decir, los hilos, para poder ejecutar tanto el java swing como la lógica del simulador al "mismo" tiempo. 
 # Uso del proyecto
 Se puede consulatar de forma libre, no hay copyright
 > [!CAUTION]
