@@ -12,6 +12,7 @@ assignees: JowisG
 [Breve description of the issue]
 ### Found
 <file>
+
 ### Posible Solution
 
 > [!NOTE]
