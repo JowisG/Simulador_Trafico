@@ -2,6 +2,8 @@ package simulator.view;
 
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
 
 import simulator.control.Controller;
 import simulator.misc.Pair;
@@ -31,7 +34,7 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 	private int time = 0;
 	
 	// elementos
-	private JDialog dco2;
+	//private JDialog dco2;
 	private JComboBox<String> vehicle_box;
 	private JComboBox<Integer> class_box;
 	private SpinnerNumberModel numSpin;
@@ -40,23 +43,26 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 	List<String> vehicle_spin_list = new ArrayList<>();
 
 	
-	public ChangeCO2ClassDialog(Controller _ctrl) {
+	public ChangeCO2ClassDialog(Frame f, Controller _ctrl) {
+		// f es null porque no se
+		super(f,true);
 		this._ctrl = _ctrl;
-		_ctrl.addObserver(this);
 		initGUI();
+		_ctrl.addObserver(this);
 	}
 
 	private void initGUI() {
-		dco2 = new JDialog(null, "Change CO2 Class", Dialog.ModalityType.APPLICATION_MODAL);
-		dco2.setSize(new Dimension(500, 200));
-		dco2.setLayout(new GridLayout(3, 1));
+		setTitle("Change CO2 Class");
+		setSize(new Dimension(500, 200));
+		setLayout(new GridLayout(3, 1));
 		
 		JLabel text = new JLabel("<html><p>Schedule an event to change the CO2 class of a vehicle after a given number of ticks from now.</p></html>");
-		dco2.add(text);
+		add(text);
 		
 		// Para los spinners
 		JPanel spinners_panel = new JPanel();
 		spinners_panel.setLayout(new BoxLayout(spinners_panel, BoxLayout.X_AXIS));
+		spinners_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		JLabel vehicle_label = new JLabel("Vehicle: ");
 		spinners_panel.add(vehicle_label);
@@ -86,7 +92,7 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 		ticks_label.add(ticks);
 		spinners_panel.add(ticks);		
 		
-		dco2.add(spinners_panel);
+		add(spinners_panel);
 		
 		// Para los botones
 		JPanel btn_panel = new JPanel();
@@ -99,12 +105,17 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 		JButton cancel_btn = new JButton();
 		cancel_btn.setText("Cancel");
 		cancel_btn.addActionListener(e -> {
-			dco2.setVisible(false);
+			setVisible(false);
 		});
 		btn_panel.add(cancel_btn);
-		dco2.add(btn_panel);
+		add(btn_panel);
 		
-		dco2.setVisible(true);
+		setVisible(false);
+	}
+	
+	public void open() {
+		// No funciona -> setLocationRelativeTo(this.getParent());
+		setVisible(true);
 	}
 
 	private void action_ok() {
@@ -115,7 +126,7 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 			SetContClassEvent e = new SetContClassEvent(time + numSpin.getNumber().intValue(), events);
 			_ctrl.addEvent(e);
 		}
-		dco2.setVisible(false);
+		setVisible(false);
 	}
 
 	@Override

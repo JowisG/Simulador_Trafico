@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
 
 import simulator.control.Controller;
 import simulator.misc.Pair;
@@ -42,23 +44,25 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 		List<String> road_spin_list = new ArrayList<>();
 
 		
-		public ChangeWeatherDailog(Controller _ctrl) {
+		public ChangeWeatherDailog(Frame f, Controller _ctrl) {
+			super(f, true);
 			this._ctrl = _ctrl;
-			_ctrl.addObserver(this);
 			initGUI();
+			_ctrl.addObserver(this);
 		}
 
 		private void initGUI() {
-			weather = new JDialog(null, "Change Weather", Dialog.ModalityType.APPLICATION_MODAL);
-			weather.setSize(new Dimension(500, 200));
-			weather.setLayout(new GridLayout(3, 1));
+			setTitle("Change Weather");
+			setSize(new Dimension(500, 200));
+			setLayout(new GridLayout(3, 1));
 			
 			JLabel text = new JLabel("<html><p>Schedule an event to change the weather of a road after a given number of simulation ticks from now.</p></html>");
-			weather.add(text);
+			add(text);
 			
 			// Para los spinners
 			JPanel spinners_panel = new JPanel();
 			spinners_panel.setLayout(new BoxLayout(spinners_panel, BoxLayout.X_AXIS));
+			spinners_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 			
 			JLabel vehicle_label = new JLabel("Road: ");
 			spinners_panel.add(vehicle_label);
@@ -90,7 +94,7 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 			ticks_label.add(ticks);
 			spinners_panel.add(ticks);		
 			
-			weather.add(spinners_panel);
+			add(spinners_panel);
 			
 			// Para los botones
 			JPanel btn_panel = new JPanel();
@@ -103,12 +107,16 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 			JButton cancel_btn = new JButton();
 			cancel_btn.setText("Cancel");
 			cancel_btn.addActionListener(e -> {
-				weather.setVisible(false);
+				setVisible(false);
 			});
 			btn_panel.add(cancel_btn);
-			weather.add(btn_panel);
+			add(btn_panel);
 			
-			weather.setVisible(true);
+			setVisible(false);
+		}
+		
+		public void open() {
+			setVisible(true);
 		}
 
 		private void action_ok() {

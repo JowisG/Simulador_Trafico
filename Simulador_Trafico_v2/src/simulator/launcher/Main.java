@@ -33,7 +33,7 @@ import simulator.factories.SetContClassEventBuilder;
 import simulator.factories.SetWeatherEventBuilder;
 import simulator.model.TrafficSimulator;
 import simulator.view.MainWindow;
-import simulator.view.TestWindow;
+import simulator.view.MainWindow;
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;
@@ -172,7 +172,7 @@ public class Main {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					new TestWindow(controller);				
+					new MainWindow(controller);
 				}
 			});			
 		}else {

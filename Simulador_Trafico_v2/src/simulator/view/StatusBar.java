@@ -42,7 +42,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 		sep.setMaximumSize(new Dimension(1, 50));
 		this.add(sep);
 		this.add(Box.createRigidArea(new Dimension(10, 0)));
-		events_desc = new JLabel("Event added (None)");
+		events_desc = new JLabel("");
 		events_desc.setFont(new Font(getName(), Font.BOLD, 18));
 		this.add(events_desc);
 		this.setVisible(true);
@@ -51,6 +51,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	@Override
 	public void onAdvance(RoadMap map, Collection<Event> events, int time) {
 		this.time.setText("Time: " + time);
+		events_desc.setText("");
 	}
 
 	@Override
@@ -61,7 +62,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver {
 	@Override
 	public void onReset(RoadMap map, Collection<Event> events, int time) {
 		this.time.setText("Time: 0");
-		events_desc.setText("Event added (None)");
+		events_desc.setText("");
 	}
 
 	@Override

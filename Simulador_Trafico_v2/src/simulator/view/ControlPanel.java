@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +10,7 @@ import java.util.Collection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -66,16 +68,25 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		
 		separator(bar);
 		
-		co2_btn = new JButton();		co2_btn.setIcon(new ImageIcon("resources/icons/co2class.png"));
+		
+		//crear el diálogo
+		ChangeCO2ClassDialog dco2 = new ChangeCO2ClassDialog(ViewUtils.getWindow(this),_ctrl);
+				co2_btn = new JButton();
+		co2_btn.setIcon(new ImageIcon("resources/icons/co2class.png"));
 		co2_btn.addActionListener(e -> {
-			new ChangeCO2ClassDialog(_ctrl);
+			dco2.setLocationRelativeTo(ViewUtils.getWindow(this));
+			dco2.open();
 		});
 		co2_btn.setToolTipText("Change the contamination class of a vehicle");
 		bar.add(co2_btn);
 		
+		// crear dialogo
+		ChangeWeatherDailog dweather = new ChangeWeatherDailog(ViewUtils.getWindow(this), _ctrl);
+		
 		weather_btn = new JButton();		weather_btn.setIcon(new ImageIcon("resources/icons/weather.png"));
 		weather_btn.addActionListener(e -> {
-			new ChangeWeatherDailog(_ctrl);
+			dweather.setLocationRelativeTo(ViewUtils.getWindow(this));
+			dweather.open();
 		});
 		weather_btn.setToolTipText("Change the weather of a road");
 		bar.add(weather_btn);
@@ -173,15 +184,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		}
 	}
-	
-	private void close_Dialog() {
-		// Closes but because it does not have a reference to the mainWidow it cant dispose of it
-		int close_dig = JOptionPane.showConfirmDialog(this, "Do you really want to close Traffic Simulator?", "Close Traffic Simulator", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-		if (close_dig == 0)
-			System.exit(0);
-		// TODO use dispose with a method that gives you the windows it lives in
-	}
 
+	private void close_Dialog() {
+		int close_dig = JOptionPane.showConfirmDialog(ViewUtils.getWindow(this), "Do you really want to close Traffic Simulator?", "Close Traffic Simulator", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (close_dig == 0)
+			ViewUtils.getWindow(this).dispose();
+	}
+	
 	private void separator(JToolBar bar) {
 		bar.addSeparator();
 		JSeparator sep = new JSeparator();
