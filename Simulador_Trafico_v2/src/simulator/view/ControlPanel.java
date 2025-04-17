@@ -173,7 +173,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		stopped = true;
 		JFileChooser chooser = new JFileChooser("./resources/examples");
 		chooser.setFileFilter(new FileNameExtensionFilter("JSON file", "json"));
-		if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		if(chooser.showOpenDialog(this.getParent()) == JFileChooser.APPROVE_OPTION) {
 			try {
 				InputStream input = new FileInputStream(chooser.getSelectedFile());
 				_ctrl.reset();

@@ -1,6 +1,5 @@
 package simulator.view;
 
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
@@ -23,7 +22,6 @@ import simulator.control.Controller;
 import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.RoadMap;
-import simulator.model.SetContClassEvent;
 import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Weather;
@@ -35,7 +33,6 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 		private int time = 0;
 		
 		// elementos
-		private JDialog weather;
 		private JComboBox<String> road_box;
 		private JComboBox<String> weather_box;
 		private SpinnerNumberModel numSpin;
@@ -67,8 +64,6 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 			JLabel vehicle_label = new JLabel("Road: ");
 			spinners_panel.add(vehicle_label);
 			road_box = new JComboBox<String>();
-			for(int i = 0; i < road_spin_list.size(); i++)
-				road_box.addItem(road_spin_list.get(i));
 			road_box.setMaximumSize(new Dimension(200, 20));
 			spinners_panel.add(road_box);
 			spinners_panel.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -116,6 +111,8 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 		}
 		
 		public void open() {
+			for(int i = 0; i < road_spin_list.size(); i++)
+				road_box.addItem(road_spin_list.get(i));
 			setVisible(true);
 		}
 
@@ -127,7 +124,7 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 				SetWeatherEvent e = new SetWeatherEvent(time + numSpin.getNumber().intValue(), events);
 				_ctrl.addEvent(e);
 			}
-			weather.setVisible(false);
+			this.setVisible(false);
 		}
 
 		@Override

@@ -1,8 +1,6 @@
 package simulator.view;
 
-import java.awt.Dialog;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -67,8 +65,6 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 		JLabel vehicle_label = new JLabel("Vehicle: ");
 		spinners_panel.add(vehicle_label);
 		vehicle_box = new JComboBox<String>();
-		for(int i = 0; i < vehicle_spin_list.size(); i++)
-			vehicle_box.addItem(vehicle_spin_list.get(i));
 		vehicle_box.setMaximumSize(new Dimension(200, 20));
 		spinners_panel.add(vehicle_box);
 		spinners_panel.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -115,6 +111,8 @@ public class ChangeCO2ClassDialog extends JDialog implements TrafficSimObserver 
 	
 	public void open() {
 		// No funciona -> setLocationRelativeTo(this.getParent());
+		for(int i = 0; i < vehicle_spin_list.size(); i++)
+			vehicle_box.addItem(vehicle_spin_list.get(i));
 		setVisible(true);
 	}
 

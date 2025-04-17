@@ -176,6 +176,9 @@ public class Main {
 				}
 			});			
 		}else {
+			InputStream in = new FileInputStream(_inFile);
+			controller.loadEvents(in);
+			in.close();
 			controller.run(_ticks, out);
 		}
 		
