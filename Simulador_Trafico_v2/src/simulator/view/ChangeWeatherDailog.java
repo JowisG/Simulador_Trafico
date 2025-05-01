@@ -2,7 +2,10 @@ package simulator.view;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,45 +54,60 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 		private void initGUI() {
 			setTitle("Change Weather");
 			setSize(new Dimension(500, 200));
-			setLayout(new GridLayout(3, 1));
+			setResizable(false);
+			setLayout(new GridBagLayout());
+			
+			GridBagConstraints constraints = new GridBagConstraints();
+			constraints.insets = new Insets(5, 5, 5, 5);
+			constraints.gridx = 0;
+			constraints.gridy = 0;
+			constraints.weightx = 1.0;
+			constraints.weighty = 1.0;
+			constraints.fill = GridBagConstraints.BOTH;
 			
 			JLabel text = new JLabel("<html><p>Schedule an event to change the weather of a road after a given number of simulation ticks from now.</p></html>");
-			add(text);
+			add(text, constraints);
 			
 			// Para los spinners
-			JPanel spinners_panel = new JPanel();
-			spinners_panel.setLayout(new BoxLayout(spinners_panel, BoxLayout.X_AXIS));
+			JPanel spinners_panel = new JPanel(new GridBagLayout());
 			spinners_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 			
 			JLabel vehicle_label = new JLabel("Road: ");
-			spinners_panel.add(vehicle_label);
+			spinners_panel.add(vehicle_label, constraints);
 			road_box = new JComboBox<String>();
-			road_box.setMaximumSize(new Dimension(200, 20));
-			spinners_panel.add(road_box);
-			spinners_panel.add(Box.createRigidArea(new Dimension(10, 0)));
+			constraints.gridx = 1;
+			constraints.weightx = 2.0;
+			spinners_panel.add(road_box, constraints);
 			
 			JLabel class_label = new JLabel("Weather: ");
-			spinners_panel.add(class_label);
+			constraints.gridx = 3;
+			constraints.weightx = 1.0;
+			spinners_panel.add(class_label, constraints);
 			weather_box = new JComboBox<String>();
 			
 			for(Weather w: Weather.values())
 				weather_box.addItem(w.toString());
 			
-			weather_box.setMaximumSize(new Dimension(200, 20));
-			spinners_panel.add(weather_box);
-			spinners_panel.add(Box.createRigidArea(new Dimension(10, 0)));
+			constraints.gridx = 4;
+			constraints.weightx = 2.0;
+			spinners_panel.add(weather_box, constraints);
 			
 			
 			JLabel ticks_label = new JLabel("Ticks: ");
-			spinners_panel.add(ticks_label);
-			numSpin = new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1);
+			constraints.gridx = 6;
+			constraints.weightx = 1.0;
+			spinners_panel.add(ticks_label, constraints);
+			numSpin = new SpinnerNumberModel(10, 1, Integer.MAX_VALUE, 1);
 			JSpinner ticks = new JSpinner(numSpin);
-			ticks.setMaximumSize(new Dimension(100, 20));
-			ticks.setValue(10);
-			ticks_label.add(ticks);
-			spinners_panel.add(ticks);		
+			ticks.setPreferredSize(new Dimension(40, 20));
+			constraints.gridx = 7;
+			constraints.weightx = 1.0;
+			spinners_panel.add(ticks, constraints);		
 			
-			add(spinners_panel);
+			constraints.gridx = 0;
+			constraints.gridy = 1;
+			constraints.weightx = 1.0;
+			add(spinners_panel, constraints);
 			
 			// Para los botones
 			JPanel btn_panel = new JPanel();
@@ -105,12 +123,14 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 				setVisible(false);
 			});
 			btn_panel.add(cancel_btn);
-			add(btn_panel);
+			constraints.gridy = 2;
+			add(btn_panel, constraints);
 			
 			setVisible(false);
 		}
 		
 		public void open() {
+			road_box.removeAllItems();
 			for(int i = 0; i < road_spin_list.size(); i++)
 				road_box.addItem(road_spin_list.get(i));
 			setVisible(true);
@@ -132,7 +152,8 @@ public class ChangeWeatherDailog extends JDialog implements TrafficSimObserver {
 			road_spin_list.clear();
 			for(int i = 0; i < map.getRoads().size(); i++) {
 				road_spin_list.add(map.getRoads().get(i).getId());
-			}	
+			}
+			this.time = time;
 		}
 
 		@Override

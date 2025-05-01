@@ -178,9 +178,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				InputStream input = new FileInputStream(chooser.getSelectedFile());
 				_ctrl.reset();
 				_ctrl.loadEvents(input);
-			} catch (FileNotFoundException e) {
-				JOptionPane.showConfirmDialog(chooser, "Choosen file does not exist or is not accessable", "File not found", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+			} catch (FileNotFoundException e1) {
+				JOptionPane.showConfirmDialog(this.getParent(), "Choosen file does not exist or is not accessable", "File not found", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
+			} catch (IllegalArgumentException e2) {
+				JOptionPane.showConfirmDialog(this.getParent(), "The format the .json file has is incorrect, please select another file", "Incorrect format", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
