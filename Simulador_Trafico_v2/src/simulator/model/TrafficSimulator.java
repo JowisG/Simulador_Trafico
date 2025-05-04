@@ -23,7 +23,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	// Constructora public
 	public TrafficSimulator() {
 		map = new RoadMap();
-		event_queue = new PriorityQueue<>();
+		event_queue = new PriorityQueue<>((o1, o2) -> o1.compareTo(o2));
 		time = 0;
 		observers = new ArrayList<>();
 	}

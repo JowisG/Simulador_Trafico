@@ -2,27 +2,16 @@ package simulator.view;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-
 import simulator.control.Controller;
-import simulator.view.ControlPanel;
-import simulator.view.StatusBar;
-import simulator.view.EventsTableModel;
 
 public class MainWindow extends JFrame {
 	private Controller _ctrl;

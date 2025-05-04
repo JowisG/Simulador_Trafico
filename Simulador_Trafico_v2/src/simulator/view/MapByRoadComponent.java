@@ -21,7 +21,6 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
-import simulator.model.Weather;
 
 public class MapByRoadComponent extends JPanel implements TrafficSimObserver {
 	

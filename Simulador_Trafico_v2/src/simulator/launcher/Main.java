@@ -33,7 +33,6 @@ import simulator.factories.SetContClassEventBuilder;
 import simulator.factories.SetWeatherEventBuilder;
 import simulator.model.TrafficSimulator;
 import simulator.view.MainWindow;
-import simulator.view.MainWindow;
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LightSwitchingStrategy;

@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Label;
 import java.util.Collection;
 
 import javax.swing.Box;
@@ -18,17 +17,13 @@ import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver {
 	
-	// Atributos
-	Controller _ctrl;
-	
 	// elementos
 	private JLabel time;
 	private JLabel events_desc;
 	
 	public StatusBar(Controller _ctrl) {
-		this._ctrl = _ctrl;
 		initGUI();
-		this._ctrl.addObserver(this);
+		_ctrl.addObserver(this);
 	}
 
 	private void initGUI() {
