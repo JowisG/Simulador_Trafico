@@ -148,7 +148,7 @@ public class Junction extends SimulatedObject {
 			v = queue_strategy.dequeue(queues.get(curr_green));
 			for (int i = 0; i < v.size(); i++) {
 				v.get(i).moveToNextRoad();
-				queues.get(curr_green).remove(i);
+				queues.get(curr_green).remove(v.get(i));
 			}
 		}
 		// Cambiamos los semaforos
